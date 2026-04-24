@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Lychee 💗</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* 🌸 LOGIN */
+#loginBox {
+    height: 100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#fceff9,#e0f7fa);
+}
+
+input {
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+
+button {
+    padding:10px 15px;
+    margin-top:10px;
+    border:none;
+    border-radius:10px;
+    background:#ff7eb9;
+    color:white;
+    cursor:pointer;
+}
+
+/* 🔴 RED SCREEN */
+.redScreen {
+    background:red;
+    color:white;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family: monospace;
+}
+
+/* ⚫ BLACK SCREEN */
+.blackScreen {
+    background:black;
+    color:lime;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family: monospace;
+    white-space: pre-line;
+    flex-direction: column;
+}
+
+/* BUTTONS */
+.choiceBox {
+    margin-top:20px;
+}
+
+.choiceBox button {
+    margin:5px;
+    background:#222;
+    color:white;
+}
+
+/* ⚡ SHAKE */
+@keyframes shake {
+    0% { transform: translate(1px, 1px); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-3px, 1px); }
+    60% { transform: translate(2px, -2px); }
+    80% { transform: translate(1px, -3px); }
+    100% { transform: translate(0px, 0px); }
+}
+
+.shake {
+    animation: shake 0.2s infinite;
+}
+
+/* ⚡ GLITCH TEXT */
+.glitch {
+    text-shadow:
+        2px 0 red,
+        -2px 0 cyan;
+    opacity: 0.85;
+}
+</style>
+</head>
+
+<body>
+
+<div id="loginBox">
+    <h2>🌸 Login 🌸</h2>
+    <input type="password" id="pass">
+    <button onclick="checkPass()">Login</button>
+</div>
+
+<script>
+
+let audioUnlocked = false;
+
+document.addEventListener("click", ()=>{
+    if(!audioUnlocked){
+        let test = new Audio();
+        test.play().catch(()=>{});
+        audioUnlocked = true;
+    }
+});
+
+// PASSWORD CHECK
+function checkPass(){
+    let val=document.getElementById("pass").value;
+
+    if(val==="oldman"){
+        document.body.innerHTML=`
+        <div style="height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#fceff9,#e0f7fa);">
+            <h1>💗 Access Granted 💗</h1>
+        </div>`;
+    } else {
+        breach();
+    }
+}
+
+// BREACH SCREEN
+function breach(){
+
+    document.body.innerHTML=`
+    <div class="redScreen" id="screen">
+        <h1>ACCESS DENIED</h1>
+    </div>`;
+
+    let audio = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+    audio.volume = 1;
+    audio.play().catch(()=>{});
+
+    setTimeout(()=>{
+        document.getElementById("screen").className="blackScreen";
+        hackerFlow();
+    },2000);
+}
+
+// TYPE EFFECT + GLITCH + SHAKE
+function typeText(text, cb){
+    let el = document.getElementById("screen");
+    el.innerHTML = "";
+    let i = 0;
+
+    document.body.classList.add("shake");
+
+    let t = setInterval(()=>{
+
+        let char = text[i];
+
+        // glitch flicker
+        if(Math.random() < 0.1){
+            el.classList.add("glitch");
+        } else {
+            el.classList.remove("glitch");
+        }
+
+        // random micro flicker
+        if(Math.random() < 0.03){
+            document.body.style.filter = "invert(1)";
+            setTimeout(()=>document.body.style.filter="none", 80);
+        }
+
+        el.innerHTML += char;
+        i++;
+
+        if(i >= text.length){
+            clearInterval(t);
+            document.body.classList.remove("shake");
+            el.classList.remove("glitch");
+            if(cb) cb();
+        }
+
+    }, 60);
+}
+
+// HACKER FLOW
+function hackerFlow(){
+
+    typeText("that's not the password I gave", ()=>{
+
+        setTimeout(()=>{
+
+            typeText("so who are you logging in for?", ()=>{
+
+                setTimeout(()=>{
+                    showChoices();
+                },800);
+
+            });
+
+        },800);
+
+    });
+}
+
+// CHOICES
+function showChoices(){
+    let el=document.getElementById("screen");
+
+    el.innerHTML=`
+        <div>
+            <h2>answer me.</h2>
+            <div class="choiceBox">
+                <button onclick="resetLogin()">YES</button>
+                <button onclick="resetLogin()">NO</button>
+                <button onclick="resetLogin()">I DON'T KNOW</button>
+            </div>
+        </div>
+    `;
+}
+
+// RESET BACK
+function resetLogin(){
+    document.body.innerHTML=`
+    <div id="loginBox">
+        <h2>🌸 Login 🌸</h2>
+        <input type="password" id="pass">
+        <button onclick="checkPass()">Login</button>
+    </div>`;
+}
+
+</script>
+
+</body>
+</html>
